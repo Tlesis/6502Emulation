@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "__config": "c",
+        "cstddef": "c",
+        "stdint.h": "c",
+        "stdlib.h": "c"
+    }
+}
