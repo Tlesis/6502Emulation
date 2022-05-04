@@ -13,14 +13,14 @@ void Cpu::reset(Memory& mem) {
     mem.initialise();
 }
 
-byte Cpu::fetchByte(u32& cycles, Memory& mem) {
+byte Cpu::fetchByte(i32& cycles, Memory& mem) {
     byte data = mem[PC];
     PC++;
     cycles--;
     return data;
 }
 
-word Cpu::fetchWord(u32& cycles, Memory& mem ) {
+word Cpu::fetchWord(i32& cycles, Memory& mem ) {
 	// 6502 is little endian
 	word Data = mem[PC];
 	PC++;
@@ -30,15 +30,14 @@ word Cpu::fetchWord(u32& cycles, Memory& mem ) {
 
 	cycles -= 2;
 
-	// if you wanted to handle endianness
-	// you would have to swap bytes here
-	// if ( PLATFORM_BIG_ENDIAN )
-	//	SwapBytesInWord(Data)
+    if (!littleEndian()) {
+	    swapBytesInWord(Data);
+    }
 
 	return Data;
 }
 
-byte Cpu::readByte(u32& cycles, byte address, Memory& mem) {
+byte Cpu::readByte(i32& cycles, byte address, Memory& mem) {
     cycles--;
     return mem[address];
 }
@@ -48,7 +47,7 @@ void Cpu::LDASetStatus() {
     N = (A & 0b10000000) > 0;
 }
 
-void Cpu::execute(u32 cycles, Memory& mem) {
+void Cpu::execute(i32 cycles, Memory& mem) {
     while (cycles > 0) {
         byte ins = fetchByte(cycles, mem);
 
@@ -77,6 +76,11 @@ void Cpu::execute(u32 cycles, Memory& mem) {
                 LDASetStatus();
             } break;
 
+            case LDA_ABS:
+            {
+                
+            }
+
             case JSR:
             {
                 word subAddr = fetchWord(cycles, mem);
@@ -89,6 +93,7 @@ void Cpu::execute(u32 cycles, Memory& mem) {
 
             default:
                 std::cerr << "Instruction not handled: " << ins << std::endl;
+                std::exit(1);
                 break;
         }
     }

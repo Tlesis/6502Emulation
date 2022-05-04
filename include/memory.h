@@ -14,19 +14,19 @@ struct Memory {
     }
 
     /** read 1 byte */
-	inline byte operator[]( u32 Address ) const {
+	inline byte operator[](u32 Address) const {
 		// assert here Address is < MAX_MEM
 		return Data[Address];
 	}
 
 	/** write 1 byte */
-	inline byte& operator[]( u32 Address ) {
+	inline byte& operator[](u32 Address) {
 		// assert here Address is < MAX_MEM
 		return Data[Address];
 	}
 
 	/** write 2 bytes */
-	inline void writeWord(word Value, u32 address, u32& cycles )
+	inline void writeWord(word Value, u32 address, i32& cycles)
 	{
 		Data[address]		= Value & 0xFF;
 		Data[address + 1]   = (Value >> 8);

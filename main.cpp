@@ -6,7 +6,7 @@ int main() {
 
     cpu.reset(mem);
     // ~~~~~~~~~~~~~~~
-    mem[0xFFFC] = INS_JSR;
+    mem[0xFFFC] = JSR;
     mem[0xFFFD] = 0x42;
     mem[0xFFFE] = 0x42;
     mem[0x4242] = LDA_IM;
